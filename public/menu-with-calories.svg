@@ -1,0 +1,48 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif">
+  
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+
+  <!-- Menu Card -->
+  <g filter="url(#shadow)">
+    <rect x="20" y="20" width="360" height="260" rx="12" fill="white"/>
+  </g>
+  
+  <!-- Menu Header -->
+  <text x="40" y="55" font-size="20" font-weight="bold" fill="#333">MENU</text>
+  <line x1="40" y1="70" x2="360" y2="70" stroke="#eeeeee" stroke-width="1"/>
+
+  <!-- Menu Item 1 -->
+  <g>
+    <text x="40" y="100" font-size="16" font-weight="600" fill="#333">Margherita Pizza</text>
+    <text x="40" y="120" font-size="12" fill="#666">Classic tomato, mozzarella, and fresh basil.</text>
+    <text x="300" y="100" font-size="14" text-anchor="end" fill="#333">€12.50</text>
+    <text x="360" y="100" font-size="14" font-weight="bold" text-anchor="end" fill="#ff642e">850 kcal</text>
+  </g>
+
+  <!-- Menu Item 2 -->
+  <g>
+    <text x="40" y="155" font-size="16" font-weight="600" fill="#333">Caesar Salad</text>
+    <text x="40" y="175" font-size="12" fill="#666">Romaine, croutons, parmesan, and Caesar dressing.</text>
+    <text x="300" y="155" font-size="14" text-anchor="end" fill="#333">€9.00</text>
+    <text x="360" y="155" font-size="14" font-weight="bold" text-anchor="end" fill="#ff642e">450 kcal</text>
+  </g>
+
+  <!-- Menu Item 3 -->
+  <g>
+    <text x="40" y="210" font-size="16" font-weight="600" fill="#333">Cheeseburger</text>
+    <text x="40" y="230" font-size="12" fill="#666">Beef patty, cheddar cheese, lettuce, and tomato.</text>
+    <text x="300" y="210" font-size="14" text-anchor="end" fill="#333">€11.00</text>
+    <text x="360" y="210" font-size="14" font-weight="bold" text-anchor="end" fill="#ff642e">720 kcal</text>
+  </g>
+  
+  <line x1="40" y1="245" x2="360" y2="245" stroke="#eeeeee" stroke-width="1"/>
+  
+  <!-- CalorieCalc Branding -->
+  <text x="40" y="265" font-size="10" fill="#aaa">
+    Calories by <tspan font-weight="bold">Calorie</tspan><tspan font-weight="bold" fill="#ff642e">Ready</tspan>
+  </text>
+</svg>
