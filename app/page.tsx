@@ -15,6 +15,7 @@ import CSVDemo from "../components/CSVDemo";
 export default function Home() {
   // --------------- i18n state ---------------
   const [locale, setLocale] = useState<Locale>("en");
+  const [mobileOpen, setMobileOpen] = useState(false);
   const t = <S extends keyof (typeof translations)["en"], K extends string>(
     section: S,
     key: K
@@ -24,28 +25,29 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200">
       {/* Navigation */}
-      <nav className="bg-white py-4 px-6 shadow-sm">
+      <nav className="bg-white dark:bg-gray-800 py-4 px-6 shadow-sm sticky top-0 z-50">
         <div className="container mx-auto flex justify-between items-center">
           <div className="flex items-center">
             <Link href="/" className="text-2xl font-bold">
-              <span className="text-black">Calorie</span>
+              <span className="text-black dark:text-white">Calorie</span>
               <span className="text-[#ff642e]">Calc</span>
             </Link>
           </div>
+          {/* ----- Desktop menu ----- */}
           <div className="hidden md:flex items-center space-x-8">
             {/* i18n-aware nav links */}
-            <Link href="#features" className="text-gray-600 hover:text-gray-900">
+            <Link href="#features" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
               {t("navbar", "features")}
             </Link>
-            <Link href="#pricing" className="text-gray-600 hover:text-gray-900">
+            <Link href="#pricing" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
               {t("navbar", "pricing")}
             </Link>
-            <Link href="#how-it-works" className="text-gray-600 hover:text-gray-900">
+            <Link href="#how-it-works" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
               {t("navbar", "howItWorks")}
             </Link>
-            <Link href="#faq" className="text-gray-600 hover:text-gray-900">
+            <Link href="#faq" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
               {t("navbar", "faq")}
             </Link>
             <Link
@@ -57,7 +59,97 @@ export default function Home() {
 
             {/* --- language switcher dropdown --- */}
             <select
-              className="border border-gray-300 rounded px-2 py-1 text-sm"
+              className="border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm bg-white dark:bg-gray-700 text-gray-800 dark:text-white"
+              value={locale}
+              onChange={(e) => setLocale(e.target.value as Locale)}
+            >
+              <option value="en">EN</option>
+              <option value="de">DE</option>
+              <option value="fr">FR</option>
+              <option value="es">ES</option>
+              <option value="it">IT</option>
+              <option value="nl">NL</option>
+            </select>
+          </div>
+
+          {/* ----- Hamburger (mobile) ----- */}
+          <button
+            className="md:hidden text-gray-700 dark:text-gray-300 focus:outline-none"
+            onClick={() => setMobileOpen((prev) => !prev)}
+            aria-label="Toggle Navigation"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {mobileOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              )}
+            </svg>
+          </button>
+        </div>
+
+        {/* ----- Mobile menu ----- */}
+        <div
+          className={`md:hidden transition-all duration-300 ease-in-out bg-white dark:bg-gray-800 ${
+            mobileOpen ? "max-h-screen py-4 px-6 mt-4" : "max-h-0 overflow-hidden"
+          }`}
+        >
+          <div className="flex flex-col space-y-4">
+            <Link
+              href="#features"
+              className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+              onClick={() => setMobileOpen(false)}
+            >
+              {t("navbar", "features")}
+            </Link>
+            <Link
+              href="#pricing"
+              className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+              onClick={() => setMobileOpen(false)}
+            >
+              {t("navbar", "pricing")}
+            </Link>
+            <Link
+              href="#how-it-works"
+              className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+              onClick={() => setMobileOpen(false)}
+            >
+              {t("navbar", "howItWorks")}
+            </Link>
+            <Link
+              href="#faq"
+              className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+              onClick={() => setMobileOpen(false)}
+            >
+              {t("navbar", "faq")}
+            </Link>
+            <Link
+              href="#contact"
+              className="bg-[#ff642e] text-white px-6 py-2 rounded-full text-center hover:bg-[#e54b00] transition"
+              onClick={() => setMobileOpen(false)}
+            >
+              {t("navbar", "contactUs")}
+            </Link>
+
+            {/* Language switcher */}
+            <select
+              className="border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm self-start bg-white dark:bg-gray-700 text-gray-800 dark:text-white"
               value={locale}
               onChange={(e) => setLocale(e.target.value as Locale)}
             >
@@ -107,7 +199,7 @@ export default function Home() {
               alt="Menu with calories"
               width={500}
               height={300}
-              className="rounded-lg shadow-lg"
+              className="rounded-lg shadow-lg dark:brightness-90"
               priority
             />
           </div>
@@ -115,35 +207,35 @@ export default function Home() {
       </section>
 
       {/* Problem vs Solution */}
-      <section className="py-20 px-6 bg-white">
+      <section className="py-20 px-6 bg-white dark:bg-gray-900">
         <div className="container mx-auto grid md:grid-cols-2 gap-12">
           {/* Problem */}
           <div>
             <div className="flex items-center mb-8">
-              <div className="bg-red-100 p-3 rounded-full mr-4">
-                <svg className="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+              <div className="bg-red-100 dark:bg-red-900/30 p-3 rounded-full mr-4">
+                <svg className="w-6 h-6 text-red-500 dark:text-red-400" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                 </svg>
               </div>
-              <h2 className="text-2xl font-bold">
+              <h2 className="text-2xl font-bold dark:text-white">
                 {t("problemSolution", "problemTitle")}
               </h2>
             </div>
-            <ul className="space-y-4">
+            <ul className="space-y-4 text-gray-600 dark:text-gray-300">
               <li className="flex items-start">
-                <svg className="w-5 h-5 text-red-500 mt-1 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 text-red-500 dark:text-red-400 mt-1 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                 </svg>
                 <span>{t("problemSolution", "problem1")}</span>
               </li>
               <li className="flex items-start">
-                <svg className="w-5 h-5 text-red-500 mt-1 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 text-red-500 dark:text-red-400 mt-1 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                 </svg>
                 <span>{t("problemSolution", "problem2")}</span>
               </li>
               <li className="flex items-start">
-                <svg className="w-5 h-5 text-red-500 mt-1 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 text-red-500 dark:text-red-400 mt-1 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                 </svg>
                 <span>{t("problemSolution", "problem3")}</span>
@@ -154,30 +246,30 @@ export default function Home() {
           {/* Solution */}
           <div>
             <div className="flex items-center mb-8">
-              <div className="bg-green-100 p-3 rounded-full mr-4">
-                <svg className="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+              <div className="bg-green-100 dark:bg-green-900/30 p-3 rounded-full mr-4">
+                <svg className="w-6 h-6 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
               </div>
-              <h2 className="text-2xl font-bold">
+              <h2 className="text-2xl font-bold dark:text-white">
                 {t("problemSolution", "solutionTitle")}
               </h2>
             </div>
-            <ul className="space-y-4">
+            <ul className="space-y-4 text-gray-600 dark:text-gray-300">
               <li className="flex items-start">
-                <svg className="w-5 h-5 text-green-500 mt-1 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 text-green-500 dark:text-green-400 mt-1 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
                 <span>{t("problemSolution", "solution1")}</span>
               </li>
               <li className="flex items-start">
-                <svg className="w-5 h-5 text-green-500 mt-1 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 text-green-500 dark:text-green-400 mt-1 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
                 <span>{t("problemSolution", "solution2")}</span>
               </li>
               <li className="flex items-start">
-                <svg className="w-5 h-5 text-green-500 mt-1 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 text-green-500 dark:text-green-400 mt-1 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
                 <span>{t("problemSolution", "solution3")}</span>
@@ -188,9 +280,9 @@ export default function Home() {
       </section>
 
       {/* Features */}
-      <section id="features" className="py-20 px-6 bg-gray-50">
+      <section id="features" className="py-20 px-6 bg-gray-50 dark:bg-gray-800">
         <div className="container mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-12">
+          <h2 className="text-3xl font-bold mb-12 dark:text-white">
             {t("features", "sectionTitle")}
           </h2>
           <div className="grid md:grid-cols-4 gap-8">
@@ -216,12 +308,12 @@ export default function Home() {
                 icon: "file-pdf",
               },
             ].map((feature, i) => (
-              <div key={i} className="bg-white p-6 rounded-lg shadow-sm">
+              <div key={i} className="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-sm">
                 <div className="text-[#ff642e] text-3xl mb-4">
                   <i className={`fas fa-${feature.icon}`}></i>
                 </div>
-                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
+                <h3 className="text-xl font-semibold mb-2 dark:text-white">{feature.title}</h3>
+                <p className="text-gray-600 dark:text-gray-300">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -229,21 +321,21 @@ export default function Home() {
       </section>
 
       {/* Pricing */}
-      <section id="pricing" className="py-20 px-6">
+      <section id="pricing" className="py-20 px-6 dark:bg-gray-900">
         <div className="container mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-12">
+          <h2 className="text-3xl font-bold mb-12 dark:text-white">
             {t("pricing", "sectionTitle")}
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {/* Basic */}
-            <div className="bg-white rounded-lg shadow-sm p-8">
-              <h3 className="text-xl font-bold mb-2">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8">
+              <h3 className="text-xl font-bold mb-2 dark:text-white">
                 {t("pricing", "basicTitle")}
               </h3>
               <p className="text-4xl font-bold text-[#ff642e] mb-6">
                 {t("pricing", "basicPrice")}
               </p>
-              <ul className="space-y-3 text-left mb-8">
+              <ul className="space-y-3 text-left mb-8 text-gray-600 dark:text-gray-300">
                 <li className="flex items-center">
                   <svg className="w-5 h-5 text-[#ff642e] mr-2" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -283,14 +375,14 @@ export default function Home() {
             </div>
 
             {/* Multi-Platform */}
-            <div className="bg-white rounded-lg shadow-sm p-8 border-2 border-[#ff642e]">
-              <h3 className="text-xl font-bold mb-2">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 border-2 border-[#ff642e]">
+              <h3 className="text-xl font-bold mb-2 dark:text-white">
                 {t("pricing", "multiPlatformTitle")}
               </h3>
               <p className="text-4xl font-bold text-[#ff642e] mb-6">
                 {t("pricing", "multiPlatformPrice")}
               </p>
-              <ul className="space-y-3 text-left mb-8">
+              <ul className="space-y-3 text-left mb-8 text-gray-600 dark:text-gray-300">
                 <li className="flex items-center">
                   <svg className="w-5 h-5 text-[#ff642e] mr-2" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -324,14 +416,14 @@ export default function Home() {
             </div>
 
             {/* Menu Update Subscription */}
-            <div className="bg-white rounded-lg shadow-sm p-8">
-              <h3 className="text-xl font-bold mb-2">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8">
+              <h3 className="text-xl font-bold mb-2 dark:text-white">
                 {t("pricing", "subscriptionTitle")}
               </h3>
               <p className="text-4xl font-bold text-[#ff642e] mb-6">
                 {t("pricing", "subscriptionPrice")}
               </p>
-              <ul className="space-y-3 text-left mb-8">
+              <ul className="space-y-3 text-left mb-8 text-gray-600 dark:text-gray-300">
                 <li className="flex items-center">
                   <svg className="w-5 h-5 text-[#ff642e] mr-2" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -368,9 +460,9 @@ export default function Home() {
       </section>
 
       {/* How It Works */}
-      <section id="how-it-works" className="py-20 px-6 bg-gray-50">
+      <section id="how-it-works" className="py-20 px-6 bg-gray-50 dark:bg-gray-800">
         <div className="container mx-auto">
-          <h2 className="text-3xl font-bold mb-12 text-center">
+          <h2 className="text-3xl font-bold mb-12 text-center dark:text-white">
             {t("howItWorks", "sectionTitle")}
           </h2>
           <ol className="space-y-12 max-w-3xl mx-auto">
@@ -399,8 +491,8 @@ export default function Home() {
                   </div>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-lg mb-1">{step.title}</h3>
-                  <p className="text-gray-600">{step.description}</p>
+                  <h3 className="font-semibold text-lg mb-1 dark:text-white">{step.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-300">{step.description}</p>
                 </div>
               </li>
             ))}
@@ -409,11 +501,11 @@ export default function Home() {
       </section>
 
       {/* Interactive CSV Demo */}
-      <section id="demo" className="py-20 px-6">
+      <section id="demo" className="py-20 px-6 dark:bg-gray-900">
         <div className="container mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Interactive CSV Demo</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <h2 className="text-3xl font-bold mb-4 dark:text-white">Interactive CSV Demo</h2>
+            <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Upload or preview a sample menu CSV and see how CalorieCalc adds
               calorie information in seconds.
             </p>
@@ -423,9 +515,9 @@ export default function Home() {
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="py-20 px-6">
+      <section id="faq" className="py-20 px-6 dark:bg-gray-900">
         <div className="container mx-auto max-w-3xl">
-          <h2 className="text-3xl font-bold mb-12 text-center">
+          <h2 className="text-3xl font-bold mb-12 text-center dark:text-white">
             {t("faq", "sectionTitle")}
           </h2>
           <div className="space-y-6">
@@ -447,9 +539,9 @@ export default function Home() {
                 a: t("faq", "a4")
               }
             ].map((faq, i) => (
-              <div key={i} className="border-b border-gray-200 pb-6">
-                <h3 className="text-lg font-semibold mb-2">{faq.q}</h3>
-                <p className="text-gray-600">{faq.a}</p>
+              <div key={i} className="border-b border-gray-200 dark:border-gray-700 pb-6">
+                <h3 className="text-lg font-semibold mb-2 dark:text-white">{faq.q}</h3>
+                <p className="text-gray-600 dark:text-gray-300">{faq.a}</p>
               </div>
             ))}
           </div>
@@ -457,39 +549,39 @@ export default function Home() {
       </section>
 
       {/* Contact */}
-      <section id="contact" className="py-20 px-6 bg-gray-50">
+      <section id="contact" className="py-20 px-6 bg-gray-50 dark:bg-gray-800">
         <div className="container mx-auto max-w-3xl">
-          <h2 className="text-3xl font-bold mb-12 text-center">
+          <h2 className="text-3xl font-bold mb-12 text-center dark:text-white">
             {t("contact", "sectionTitle")}
           </h2>
-          <div className="bg-white rounded-lg shadow-sm p-8">
+          <div className="bg-white dark:bg-gray-700 rounded-lg shadow-sm p-8">
             <form>
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block mb-2 text-sm font-medium">
+                  <label className="block mb-2 text-sm font-medium dark:text-gray-200">
                     {t("contact", "labelRestaurantName")}
                   </label>
                   <input
                     type="text"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-[#ff642e] focus:border-[#ff642e]"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-[#ff642e] focus:border-[#ff642e] bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
                     placeholder={t("contact", "placeholderRestaurantName")}
                   />
                 </div>
                 <div>
-                  <label className="block mb-2 text-sm font-medium">
+                  <label className="block mb-2 text-sm font-medium dark:text-gray-200">
                     {t("contact", "labelEmail")}
                   </label>
                   <input
                     type="email"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-[#ff642e] focus:border-[#ff642e]"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-[#ff642e] focus:border-[#ff642e] bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
                     placeholder={t("contact", "placeholderEmail")}
                   />
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block mb-2 text-sm font-medium">
+                  <label className="block mb-2 text-sm font-medium dark:text-gray-200">
                     {t("contact", "labelPlatform")}
                   </label>
-                  <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-[#ff642e] focus:border-[#ff642e]">
+                  <select className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-[#ff642e] focus:border-[#ff642e] bg-white dark:bg-gray-800 text-gray-800 dark:text-white">
                     <option value="" disabled selected>
                       {t("contact", "placeholderPlatform")}
                     </option>
@@ -500,11 +592,11 @@ export default function Home() {
                   </select>
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block mb-2 text-sm font-medium">
+                  <label className="block mb-2 text-sm font-medium dark:text-gray-200">
                     {t("contact", "labelMessage")}
                   </label>
                   <textarea
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-[#ff642e] focus:border-[#ff642e]"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-[#ff642e] focus:border-[#ff642e] bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
                     rows={4}
                     placeholder={t("contact", "placeholderMessage")}
                   ></textarea>
@@ -524,7 +616,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-800 text-white py-12 px-6">
+      <footer className="bg-gray-800 dark:bg-black text-white py-12 px-6">
         <div className="container mx-auto">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
